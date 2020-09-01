@@ -19,7 +19,7 @@ stages:
             azureResourceManagerConnection: 'ARM_Template_Service'
             subscriptionId: '445c11b8-59e8-495f-8cfd-83dd1ba1bc97'
             action: 'Create Or Update Resource Group'
-            resourceGroupName: 'Try_resource'
+            resourceGroupName: 'MyResourceARM'
             location: 'West Europe'
             templateLocation: 'Linked artifact'
             csmFile: '$(Build.SourcesDirectory)/ARM_Template/azuredeploy.json'
@@ -35,7 +35,7 @@ stages:
             ScriptType: 'InlineScript'
             Inline: |
               $Parameters = @{
-                ResourcegroupName     = "Try_resource"
+                ResourcegroupName     = "MyResourceARM"
                 Templatefile          = ".\ARM_Template\azuredeploy.json"
                 TemplateParameterfile = ".\ARM_Template\azuredeploy.parameters.json"
                 Mode                  = 'Incremental'
