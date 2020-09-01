@@ -25,6 +25,25 @@ stages:
             csmFile: '$(Build.SourcesDirectory)/ARM_Template/azuredeploy.json'
             csmParametersFile: '$(Build.SourcesDirectory)/ARM_Template/azuredeploy.parameters.json'
             deploymentMode: 'Validation'
+        - task: PowerShell@2
+          inputs:
+            targetType: 'inline'
+            script: 'Install-Module Az.Resources -RequiredVersion 1.12.1-preview -AllowPrerelease -Force -Scope CurrentUser'
+        - task: AzurePowerShell@5
+          inputs:
+            azureSubscription: 'ARM_Template_Service'
+            ScriptType: 'InlineScript'
+            Inline: |
+              $Parameters = @{
+                ResourcegroupName     = "Try_resource"
+                Templatefile          = ".\ARM_Template\azuredeploy.json"
+                TemplateParameterfile = ".\ARM_Template\azuredeploy.parameters.json"
+                Mode                  = 'Incremental'
+               }
+              $Result = Get-AzResourceGroupDeploymentWhatIfResult @Parameters
+              $Resultarguments
+            FailOnStandardError: true
+            azurePowerShellVersion: 'LatestVersion'
         
 
 
